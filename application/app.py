@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_restx import Api
 
 
 db = SQLAlchemy()
@@ -11,5 +12,12 @@ def create_app():
 
     db.init_app(app)
 
-    return app
+    with app.app_context():
+
+        api = Api(app, version='1.0', description='Movies API')
+        api.config['api'] = api
+
+        from application import routes
+
+        return app
 
