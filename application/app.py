@@ -17,7 +17,7 @@ def create_app():
         api = Api(app, version='1.0', description='Movies API')
         api.config['api'] = api
 
-        from application import routes
+        from application import routes # noqa
 
         return app
 

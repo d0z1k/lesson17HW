@@ -11,7 +11,8 @@ movies_schema = schema.Movie(many=True)
 
 
 @movies_ns.route('/')
-class MovieView(Resource):
+class MoviesView(Resource):
+
     def get(self):
         movies = db.session.query(models.Movie).all()
         return movies_schema.dump(movies), 200
