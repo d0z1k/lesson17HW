@@ -1,5 +1,4 @@
 from flask import current_app as app
-from flask.views import View
 from flask_restx import Api, Namespace, Resource
 
 from application.models import db
