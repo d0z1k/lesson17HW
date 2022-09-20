@@ -78,6 +78,16 @@ class DirectorView(Resource):
 
         return director_schema.dump(director), 200
 
+    def put(self, director_id):
+        db.session.query(models.Movie).filter(models.Director.id == director_id).update(request.json)
+        db.session.commit()
+        return {}, 204
+
+    def delete(self, director_id):
+        db.session.query(models.Movie).filter(models.Director.id == director_id).delete()
+        db.session.commit()
+        return {}, 204
+
 
 @directors_ns.route('/')
 class DirectorsView(Resource):
@@ -85,6 +95,13 @@ class DirectorsView(Resource):
     def get(self):
         directors = db.session.query(models.Director).all()
         return directors_schema.dump(directors), 200
+
+    def post(self):
+        director = director_schema.load(request.json)
+        db.session.add(models.Movie(**director))
+        db.session.commit()
+
+        return {}, 201
 
 
 @genres_ns.route('/<int:genre_id>')
@@ -95,9 +112,26 @@ class GenreView(Resource):
             return {}, 404
         return genre_schema.dump(genre), 200
 
+    def put(self, genre_id):
+        db.session.query(models.Movie).filter(models.Genre.id == genre_id).update(request.json)
+        db.session.commit()
+        return {}, 204
+
+    def delete(self, genre_id):
+        db.session.query(models.Movie).filter(models.Genre.id == genre_id).delete()
+        db.session.commit()
+        return {}, 204
+
 
 @genres_ns.route('/')
 class GenresView(Resource):
     def get(self):
         genres = db.session.query(models.Genre).all()
         return genres_schema.dump(genres), 200
+
+    def post(self):
+        genre = genre_schema.load(request.json)
+        db.session.add(models.Movie(**genre))
+        db.session.commit()
+
+        return {}, 201
