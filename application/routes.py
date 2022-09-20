@@ -34,6 +34,10 @@ class MovieView(Resource):
         db.session.commit()
         return {}, 204
 
+    def delete(self, movie_id):
+        db.session.query(models.Movie).filter(models.Movie.id == movie_id).delete()
+        db.session.commit()
+        return {}, 204
 
 
 @movies_ns.route('/')
