@@ -29,6 +29,12 @@ class MovieView(Resource):
 
         return movie_schema.dump(movie), 200
 
+    def put(self, movie_id):
+        db.session.query(models.Movie).filter(models.Movie.id == movie_id).update(request.json)
+        db.session.commit()
+        return {}, 204
+
+
 
 @movies_ns.route('/')
 class MoviesView(Resource):
