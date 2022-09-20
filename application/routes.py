@@ -50,6 +50,13 @@ class MoviesView(Resource):
 
         return movies_schema.dump(movies), 200
 
+    def post(self):
+        movie = movie_schema.load(request.json)
+        db.session.add(models.Movie(**movie))
+        db.session.commit()
+
+        return {}, 201
+
 
 @directors_ns.route('/<int:director_id>')
 class DirectorView(Resource):
